@@ -1,4 +1,4 @@
-FROM php:8.0.10-fpm
+FROM php:${PHP_VERSION:-8.1}-fpm
 
 RUN apt update \
     && apt install -y zlib1g-dev g++ git libicu-dev zip libzip-dev libpq-dev zip \
@@ -14,8 +14,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
-RUN git config --global user.email "sajeev.nair174@gmail.com" \
-    && git config --global user.name "Sajeev Nair"
+RUN git config --global user.email ${GIT_CONF_USER_EMAIL:-"sajeev.nair174@gmail.com"} \
+    && git config --global user.name ${GIT_CONF_USER_NAME:-"Sajeev Nair"}
 
 RUN  sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes >> /dev/null
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
